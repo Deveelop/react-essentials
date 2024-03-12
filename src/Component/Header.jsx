@@ -1,4 +1,5 @@
 import reactLogo from '../assets/react-core-concepts.png'
+import './Header.css'
 const Header = () => {
     const reactDescription = ['Fundamental', 'Crucial', 'Core'];
     const genRandom = max => {

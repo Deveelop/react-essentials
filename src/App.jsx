@@ -1,32 +1,49 @@
+import { useState } from "react";
 import Header from "./Component/Header";
-import componentImg from "../src/assets/components.png"
-
-const CoreConcepts = (props) => {
-return(
-  <li>
-    <img src={props.image} alt=""/>
-    <h3>{props.title}</h3>
-    <p>{props.description}</p>
-  </li>
-)
-}
+import { CORE_CONCEPTS } from "./Component/data";
+import CoreConcepts from "./Component/CoreConcept";
+import TabButton from "./Component/TabButton";
+import { EXAMPLES } from "./Component/data";
 const App = () => {
+const [isSelectedTopic, setSelectedTopic] = useState();
+
+
+  const handleClick = (selectedBtn) => {
+    setSelectedTopic(selectedBtn)
+}
   return (
     <div>
       <Header/>
       <main>
         <section id="core-concepts">
-        <h2>Time to get started!</h2>
+        <h2>Core Concepts</h2>
         <ul>
-        <CoreConcepts 
-        title="Components"
-        description="The core UI building block"
-        image={componentImg}
-        />
-        <CoreConcepts />
-        <CoreConcepts />
-        <CoreConcepts />
+        {
+          CORE_CONCEPTS.map( (conceptItems) => (
+              <CoreConcepts key={conceptItems.title} {...conceptItems} />
+            ))}
+       
+        
         </ul>
+
+        </section>
+        <section id="examples">
+          <h2>Examples</h2>
+          <menu>
+            <TabButton isSelected={isSelectedTopic === 'components'} onSelect={() => handleClick('components')}>Components</TabButton>
+            <TabButton isSelected={isSelectedTopic === 'jsx'}  onSelect={() => handleClick('jsx')}>JSX</TabButton>
+            <TabButton isSelected={isSelectedTopic === 'props'}  onSelect={() => handleClick('props')}>Props</TabButton>
+            <TabButton isSelected={isSelectedTopic === 'state'}  onSelect={() => handleClick('state')}>State</TabButton>
+          </menu>
+          {!isSelectedTopic && <p>Please select a topic.</p>}
+          { isSelectedTopic && <div className="tab">
+          <h3>{EXAMPLES[isSelectedTopic].title}</h3>
+          <p>{EXAMPLES[isSelectedTopic].description}</p>
+          <pre>
+            <code>{EXAMPLES[isSelectedTopic].code}</code>
+          </pre>
+         </div>}
+         
 
         </section>
       </main>
